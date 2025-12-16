@@ -358,7 +358,7 @@ public void addBusPeriodically(String busNumber, String startTime, String period
 Задание 7 Ожидание автобуса человеком
 
 
-Метод waitingBusPerson(String startTime, String busNumber, int countMinutes): получает начальное время startTime, номер автобуса  NumberBus и количество минут ожидания countMinutes, метод выдает true или false в зависимости прийдет ли какой либо автобус с номером NumberBus за время ожидания или нет. Для этого создаем пременые типа данных int для хранения часов и минут startTime, далее добовляем к минутной части startTime countMinutes и если количество минут становится больше или равно 60 вычитаем из него 60 и увеличиваем количество часов на 1. Далее с помощью цикла пробегаем по всем временам прибытия автобуса и если найдем то, которое лежит между начальным временем и конечным то возвращаем true, иначе по завершении цикла возвращаем false.
+Метод waitingBusPerson(String startTime, String busNumber, int countMinutes): получает начальное время startTime, номер автобуса  NumberBus и количество минут ожидания countMinutes, метод выдает true или false в зависимости прийдет ли автобус с номером NumberBus за время ожидания или нет. Для этого создаем пременые типа данных int для хранения часов и минут startTime, далее добовляем к минутной части startTime countMinutes и если количество минут становится больше или равно 60 вычитаем из него 60 и увеличиваем количество часов на 1. Далее с помощью цикла пробегаем по всем временам прибытия автобуса и если найдем то, которое лежит между начальным временем и конечным то возвращаем true, иначе по завершении цикла возвращаем false.
 ```java
 public boolean waitingBusPerson(String startTime, String busNumber, int countMinutes){
             int startHour = Integer.parseInt(startTime.substring(0,2));
@@ -384,7 +384,7 @@ public boolean waitingBusPerson(String startTime, String busNumber, int countMin
 Задание 8 Автобусы на отрезке времени (в пределах суток)
 
 
-Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
+Метод timeBusesOnSegmentSut(String startTime, String endTime): получает начальное время startTime, то есть время первого прибытияи и конечное время промежутка endTime, метод возвращает номера автобусов, которые будут на остановке в данный промежуток времени. Нашли количество часов и минут endTime и startTime, далее пробегаем по массиву автобусов и в каждом автобусе пробегаем по его времени прибытия, если время прибытия лежит между endTime и startTime то добовляем его в результат (res) и выходим из цилка, если же нет таких прибытий то ничего не добовляем. 
 ```java
 public String timeBusesOnSegmentSut(String startTime, String endTime){
             String res = "";
