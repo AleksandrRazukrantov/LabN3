@@ -258,7 +258,7 @@ public int searchSequenceNumber(String busNumber) {
 
 Итак, все вспомогательные классы и методы были описаны, можно переходить к описанию и реализации самих заданий
 
-Задание 1
+Задание 1 Вывод расписания
 
 Метод toString(): возращает строку (строки) всех автобусов с их временем или, проще говоря, само расписание.
 ```java
@@ -272,7 +272,7 @@ public String toString() {
 }
 ```
 
-Задание 2
+Задание 2 Добовление времени автобуса по его номеру
 
 Метод addTimeBusesArrivals(String busNumber, String time): получает номер автобуса busNumber и время его прибытия time, метод добовляет (если такого автобуса еще не было то добовляет новый автобус) время time в массив прибытий автобуса с номером busNumber. Используя метод searchSequenceNumber(), мы узнаем есть ли автобус этим номером в расписании, для этого необходимо чтобы searchSequenceNumber(busNumber) было больше -1, если верно то проверяем есть ли уже такое время прибытие данного автобуса если есть то заканчиваем метод, если нет то добовляем время с помощью метода addTimeArrivals(), если такого автобуса еще не было то добовляем новый автобус с помощью метода addBusArrivals() и уже к этому автобусу добовляем данное время с помощью метода addTimeArrivals().
 ```java
@@ -296,7 +296,7 @@ if (searchSequenceNumber(busNumber) > -1) {
 }
 ```
 
-Задание 3
+Задание 3 Удаление автобуса из расписания
 
 Метод deleteBus(String NumberBus): получает номер автобуса  NumberBus, определяет с помощью метода searchSequenceNumber() номере автобуса j, который нужно удалить далле аналогично с удалением времени прибыйтий, сдвигаем начиная с j на один все элементы arrayBus и arrayNumbersBuses и получим, что в  новых массивах не будет j элемента, далее уменьшаем поле countBuses на 1.
 ```java
@@ -311,7 +311,7 @@ public void deleteBus(String NumberBus) {
 ```
 
 
-Задание 4
+Задание 4 Удаление времени прихода автобуса
 
 Метод deleteTimeBusesArrivals(String busNumber, String time): получает номер автобуса  NumberBus и  время time, которое нужно удалить, определяет с помощью метода searchSequenceNumber() номере автобуса, в котором нужно удалить время и применяет метод deleteTimeArrivals().
 ```java
@@ -321,7 +321,19 @@ public void deleteTimeBusesArrivals(String busNumber, String time){
         }
 ```
 
+Задание 5 Добавление автобуса с периодическими остановками (по количеству)
 
+Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
+```java
+public void addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals){
+            addBusArrivals(busNumber,24);
+            arrayBus[countBuses-1].addTimeArrivals(startTime);
+            for(int i = 0; i < countArrivals-1; i++) {
+                String time = arrayBus[countBuses-1].sumTime(periodTime);
+                arrayBus[countBuses-1].addTimeArrivals(time);
+            }
+        }
+```
 
 
 
