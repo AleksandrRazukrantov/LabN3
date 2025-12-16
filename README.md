@@ -233,7 +233,13 @@ public Schedule(int maxCountBuses) {
         }
 ```
 
-
+Метод addBusArrivals(String numberBus, int maxCountArrivals): получает номер автобуса 'numberBus' и максимальное количество прибытий этого автобуса 'maxCountArrivals'
+```java
+public Schedule(int maxCountBuses) {
+    arrayBus = new Bus[maxCountBuses];
+    arrayNumbersBuses = new String[maxCountBuses];
+        }
+```
 
 
 
