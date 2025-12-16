@@ -164,19 +164,19 @@ public void deleteTimeArrivals(String time){
 
 Метод toString(): возвращает все элементы массива прибытий в виде строки.
 ```java
-        @Override
-        public String toString(){
-            String res = numberBus + " : ";
-            for(int i = 0; i < countArrivals; i++) {
-                if(i + 1 < countArrivals) {
-                    res = res + arrayArrival[i].toString() + ", ";
-                }
-                else{
-                    res = res + arrayArrival[i].toString();
-                }
-            }
-            return res;
+@Override
+public String toString(){
+    String res = numberBus + " : ";
+    for(int i = 0; i < countArrivals; i++) {
+        if(i + 1 < countArrivals) {
+            res = res + arrayArrival[i].toString() + ", ";
         }
+        else{
+            res = res + arrayArrival[i].toString();
+        }
+    }
+    return res;
+}
 ```
 
 
