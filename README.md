@@ -404,6 +404,7 @@ public String timeBusesOnSegmentSut(String startTime, String endTime){
 
 Задание 9 Автобусы на отрезке времени (через полночь)
 
+
 Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
 ```java
 public String timeBusesOnSegmentNotSut(String startTime, String endTime){
@@ -432,6 +433,7 @@ public String timeBusesOnSegmentNotSut(String startTime, String endTime){
 ```
 
 Задание 10 Добавление автобуса с периодическими остановками (по количеству)
+
 
 Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
 ```java
