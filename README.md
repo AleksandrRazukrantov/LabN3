@@ -75,3 +75,32 @@ public String toString(){
     return time;
 }
 ```
+
+Метод getIntHours(): Так как при работе со временем удобней использовать не символы а числовые значения, то я решил создать отдельный метод, который будкт возвращать количество часов в типи данных int.
+```java
+public int getIntHours(){
+    int dozHour = (time.charAt(0) - '0')*10;
+    int unitHour = (time.charAt(1) - '0');
+    return dozHour + unitHour;
+        }
+```
+
+Метод getIntMinutes(): Так как при работе со временем удобней использовать не символы а числовые значения, то я решил создать отдельный метод, который будкт возвращать количество часов в типи данных int.
+```java
+public int getIntMinutes(){
+    int dozMinutes = (time.charAt(3) - '0')*10;
+    int unitMinutes = (time.charAt(4) - '0');
+    return dozMinutes + unitMinutes;
+        }
+```
+
+
+
+
+
+
+
+
+
+
+
