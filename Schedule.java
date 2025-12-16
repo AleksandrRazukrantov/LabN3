@@ -1,5 +1,5 @@
-import Arrival
-import Bus
+import Arrival;
+import Bus;
 public static class Schedule {
 
         private int countBuses = 0;
