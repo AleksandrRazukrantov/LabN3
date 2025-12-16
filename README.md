@@ -337,6 +337,7 @@ public void addBusPeriodically(String busNumber, String startTime, String period
 
 Задание 6 Добавление автобуса с периодическими остановками (по времени)
 
+
 Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
 ```java
 public void addBusPeriodically(String busNumber, String startTime, String periodTime, String finishTime){
@@ -355,6 +356,7 @@ public void addBusPeriodically(String busNumber, String startTime, String period
 ```
 
 Задание 7 Ожидание автобуса человеком
+
 
 Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
 ```java
@@ -380,6 +382,8 @@ public boolean waitingBusPerson(String startTime, String busNumber, int countMin
 ```
 
 Задание 8 Автобусы на отрезке времени (в пределах суток)
+
+
 Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
 ```java
 public String timeBusesOnSegmentSut(String startTime, String endTime){
@@ -462,6 +466,10 @@ public String firstBusForPerson(String startTime, String[] numberBuses){
         }
 ```
 
+### 3. Программа
+
+
+### 4. Анализ правильности решения и формат ввода
 
 
 
