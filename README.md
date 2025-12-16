@@ -104,11 +104,11 @@ public int getIntMinutes(){
 
 Поля:
 
-поле numberBus - хранит номер автобуса в строке.
+numberBus - хранит номер автобуса в строке.
 
-поле countArrivals - хранит количество прибытий автобуса на остановку, тип данных int.
+countArrivals - хранит количество прибытий автобуса на остановку, тип данных int.
 
-поле Arrival[] arrayArrival - хранит массив времени всех прибытий автобуса на остановку (Для этого и нужен класс Arrival)
+Arrival[] arrayArrival - хранит массив времени всех прибытий автобуса на остановку (Для этого и нужен класс Arrival)
 
 Конструктор: принимает номер автобуса в строке и принимает максимально возможное число поездок автобуса в сутках, присваевает номер автобуса полю numberBus, и указывает длинну массива arrayArrival.
 ```java
@@ -117,6 +117,44 @@ public Bus(String numberBus, int maxCountArrivals){
     arrayArrival = new Arrival[maxCountArrivals];
         }
 ```
+
+Метод addTimeArrivals(String time): принимает строку времени и добовляет её в массив этого автобуса, значению в массиве под номером countArrivals задаеться значение time, и число прибытий увеличиваеться на 1, далее массив сортируеться в хронологическом порядке.
+```java
+public void addTimeArrivals(String time){
+    if(countArrivals < arrayArrival.length){
+        arrayArrival[countArrivals] = new Arrival(time);
+        countArrivals++;
+        sortArrivals();
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
