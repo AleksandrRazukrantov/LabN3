@@ -212,6 +212,16 @@ public String sumTime(String time){
 
 ```
 
+##### Класс Schedule
+Основной класс для реализации заданий.
+
+Поля:
+
+countBuses - количество автобусов прибывающих на остановку, изначально 0.
+
+Bus[] arrayBus - массив всех прибывающих автобусов.
+
+String[] arrayNumbersBuses - массив для всех номеров прибывающих автобусов (где i элемент arrayBus имеет номер i элемента arrayNumbersBuses).
 
 
 
