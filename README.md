@@ -256,7 +256,7 @@ public int searchSequenceNumber(String busNumber) {
         }
 ```
 
-Итак, все вспомогательные классы и методы были описаны, можно переходить к описанию реализации самих заданий
+Итак, все вспомогательные классы и методы были описаны, можно переходить к описанию и реализации самих заданий
 
 Задание 1
 
@@ -272,6 +272,30 @@ public String toString() {
 }
 ```
 
+Задание 2
+
+Метод addTimeBusesArrivals(String busNumber, String time): получает номер автобуса busNumber и время его прибытия time, метод добовляет (если такого автобуса еще не было то создает) время time в массив прибытий автобуса с номером busNumber. Используя метод searchSequenceNumber(), мы узнаем есть ли автобус этим номером в расписании, для этого необходимо чтобы searchSequenceNumber(busNumber) было больше -1, если верно то проверяем есть ли уже такое время прибытие данного автобуса если есть то заканчиваем мето, если нет то добовляем время с помощью метода addTimeArrivals(), если такого автобуса еще не было то добовляем новый автобус с помощью метода addBusArrivals() и уже к этому автобусу добовляем данное время с помощью метода addTimeArrivals().
+```java
+@Override
+public void addTimeBusesArrivals(String busNumber, String time) {
+if (searchSequenceNumber(busNumber) > -1) {
+        boolean f = true;
+        Bus bus = arrayBus[searchSequenceNumber(busNumber)];
+        for(int i = 0; i < bus.countArrivals; i++){
+            if(time.equals(bus.arrayArrival[i].toString())){
+                f = false;
+            }
+        }
+        if(f){
+            bus.addTimeArrivals(time);
+        }
+    }
+    else {
+        addBusArrivals(busNumber, 15);
+        arrayBus[searchSequenceNumber(busNumber)].addTimeArrivals(time);
+    }
+}
+```
 
 
 
