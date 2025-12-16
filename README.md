@@ -243,7 +243,7 @@ public void addBusArrivals(String numberBus, int maxCountArrivals) {
             }
         }
 ```
-Метод searchSequenceNumber(String busNumber): получает номер автобусаbusNumber и возвращает его индекс (если такого номера нет то возвращает -1) в списке всех автобусов arrayBus, то есть зная номер автобуса с помощью данного метода можно будет узнать сам автобус. Создаем переменную f, в котрой изначально значение -1, далее пробигаем по массиву arrayNumbersBuses и сравниваем элементы массива с busNumber, если нашли то f становиться текущем индексом, если же не нашли то f остается -1, затем возвращаем f.
+Метод searchSequenceNumber(String busNumber): получает номер автобуса busNumber и возвращает его индекс (если такого номера нет то возвращает -1) в списке всех автобусов arrayBus, то есть зная номер автобуса с помощью данного метода можно будет узнать сам автобус. Создаем переменную f, в котрой изначально значение -1, далее пробигаем по массиву arrayNumbersBuses и сравниваем элементы массива с busNumber, если нашли то f становиться текущем индексом, если же не нашли то f остается -1, затем возвращаем f.
 ```java
 public int searchSequenceNumber(String busNumber) {
             int f = -1;
@@ -256,7 +256,17 @@ public int searchSequenceNumber(String busNumber) {
         }
 ```
 
-
+Метод toString(): возращает строку (строки) всех автобусов с их временем или, проще говоря, само расписание.
+```java
+@Override
+public String toString() {
+    String res = "";
+    for (int i = 0; i < countBuses; i++) {
+        res = res + arrayBus[i].toString() + "\n";
+    }
+    return res;
+}
+```
 
 
 
