@@ -219,11 +219,19 @@ public String sumTime(String time){
 
 Поля:
 
-countBuses - количество автобусов прибывающих на остановку, изначально 0.
+countBuses - количество автобусов прибывающих на остановку, изначально 0, тип данных int.
 
 arrayBus - массив всех прибывающих автобусов.
 
 arrayNumbersBuses - массив для всех номеров прибывающих автобусов (где i элемент arrayBus имеет номер i элемента arrayNumbersBuses).
+
+Конструктор: получает максимально возможное количество автобусов maxCountBuses, которое может прийти на остановку. Создает arrayBus и arrayNumbersBuses и задает им длинну maxCountBuses.
+```java
+public Schedule(int maxCountBuses) {
+    arrayBus = new Bus[maxCountBuses];
+    arrayNumbersBuses = new String[maxCountBuses];
+        }
+```
 
 
 
