@@ -1,4 +1,4 @@
-import Arrival
+import Arrival;
 public static class Bus{
 
         private final String numberBus;
