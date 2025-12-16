@@ -65,38 +65,8 @@ public static class Bus{
             }
         }
 
-        // Добовление прибавленного времени
-        public void addSumTime(String numberBus,String time){
-            int countHourTime = (time.charAt(0) - '0')*10 + (time.charAt(1) - '0');
-            int countMinutesTime = (time.charAt(3) - '0')*10 + (time.charAt(4) - '0');
-            String resTime;
-            int hour = arrayArrival[countArrivals-1].getIntHours() + countHourTime;
-            int minutes = arrayArrival[countArrivals-1].getIntMinutes() + countMinutesTime;
-            if(minutes >= 60){
-                hour++;
-                minutes -= 60;
-            }
-            if(hour < 10){
-                if(minutes >= 10) {
-                    resTime = "0" + String.valueOf(hour) + ":" + String.valueOf(minutes);
-                }
-                else {
-                    resTime = "0" + String.valueOf(hour) + ":0" + String.valueOf(minutes);
-                }
-            }
-            else {
-                if(minutes >= 10) {
-                    resTime = String.valueOf(hour) + ":" + String.valueOf(minutes);
-                }
-                else {
-                    resTime = String.valueOf(hour) + ":0" + String.valueOf(minutes);
-                }
-            }
-            addTimeArrivals(resTime);
-        }
-
         // Суммирование времени
-        public String sumTime(String numberBus,String time){
+        public String sumTime(String time){
             int countHourTime = (time.charAt(0) - '0')*10 + (time.charAt(1) - '0');
             int countMinutesTime = (time.charAt(3) - '0')*10 + (time.charAt(4) - '0');
             String resTime;
@@ -108,24 +78,20 @@ public static class Bus{
             }
             if(hour < 10){
                 if(minutes >= 10) {
-                    resTime = "0" + String.valueOf(hour) + ":" + String.valueOf(minutes);
+                    resTime = "0" + hour + ":" + minutes;
                 }
                 else {
-                    resTime = "0" + String.valueOf(hour) + ":0" + String.valueOf(minutes);
+                    resTime = "0" + hour + ":0" + minutes;
                 }
             }
             else {
                 if(minutes >= 10) {
-                    resTime = String.valueOf(hour) + ":" + String.valueOf(minutes);
+                    resTime = hour + ":" + minutes;
                 }
                 else {
-                    resTime = String.valueOf(hour) + ":0" + String.valueOf(minutes);
+                    resTime = hour + ":0" + minutes;
                 }
             }
             return resTime;
         }
-
-
-
-
     }
