@@ -179,6 +179,38 @@ public String toString(){
 }
 ```
 
+Метод sumTime(String time): принимает строку времени и прибавляет это время к последнему времени из массива прибытий (Последний, так как этот метод будет необходим только для реализации переодических автобусов, где время будет строиться от последнего элемента прибавлением периода). Так как время вводиться всегда в формате строки то для начала найдем количество часов и минут, далее прибавим их к текущему времени (время последнего элемента массива прибытий), если в итоге количество минут стало больше или равно 60 то увеличиваем количество часов на 1 и вычитаем 60 из получившегося количества минут. Далее возвращаем итоговое время в виде строки по правилу.
+```java
+public String sumTime(String time){
+            int countHourTime = (time.charAt(0) - '0')*10 + (time.charAt(1) - '0');
+            int countMinutesTime = (time.charAt(3) - '0')*10 + (time.charAt(4) - '0');
+            String resTime;
+            int hour = arrayArrival[countArrivals-1].getIntHours() + countHourTime;
+            int minutes = arrayArrival[countArrivals-1].getIntMinutes() + countMinutesTime;
+            if(minutes >= 60){
+                hour++;
+                minutes -= 60;
+            }
+            if(hour < 10){
+                if(minutes >= 10) {
+                    resTime = "0" + hour + ":" + minutes;
+                }
+                else {
+                    resTime = "0" + hour + ":0" + minutes;
+                }
+            }
+            else {
+                if(minutes >= 10) {
+                    resTime = hour + ":" + minutes;
+                }
+                else {
+                    resTime = hour + ":0" + minutes;
+                }
+            }
+            return resTime;
+        }
+
+```
 
 
 
