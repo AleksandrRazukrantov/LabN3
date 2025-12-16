@@ -230,14 +230,17 @@ arrayNumbersBuses - массив для всех номеров прибываю
 public Schedule(int maxCountBuses) {
     arrayBus = new Bus[maxCountBuses];
     arrayNumbersBuses = new String[maxCountBuses];
-        }
+}
 ```
 
-Метод addBusArrivals(String numberBus, int maxCountArrivals): получает номер автобуса 'numberBus' и максимальное количество прибытий этого автобуса 'maxCountArrivals'
+Метод addBusArrivals(String numberBus, int maxCountArrivals): получает номер автобуса numberBus и максимальное количество прибытий этого автобуса maxCountArrivals, создается новый автобус он добовляется в массив автобусов (если может) на место с индексом текущего количества автобусов (значение поля countBuses) и затем количество автобусов поле countBuses увеличивается на 1.
 ```java
-public Schedule(int maxCountBuses) {
-    arrayBus = new Bus[maxCountBuses];
-    arrayNumbersBuses = new String[maxCountBuses];
+public void addBusArrivals(String numberBus, int maxCountArrivals) {
+            if (countBuses < arrayBus.length) {
+                arrayBus[countBuses] = new Bus(numberBus, maxCountArrivals);
+                arrayNumbersBuses[countBuses] = numberBus;
+                countBuses++;
+            }
         }
 ```
 
