@@ -118,6 +118,22 @@ public Bus(String numberBus, int maxCountArrivals){
         }
 ```
 
+Метод sortArrivals(): сортирует текущий массив прибытий автобуса в хронологическом порядке. Сортировка методом пузырька.
+```java
+public void sortArrivals(){
+            Arrival p;
+            for (int i = countArrivals-1; i > 0;i--){
+                for (int j = countArrivals - 1; j > 0;j--){
+                    if(arrayArrival[j].getIntHours() < arrayArrival[j-1].getIntHours() || (arrayArrival[j].getIntHours() == arrayArrival[j-1].getIntHours() && arrayArrival[j].getIntMinutes() < arrayArrival[j-1].getIntMinutes())){
+                        p = arrayArrival[j-1];
+                        arrayArrival[j-1] = arrayArrival[j];
+                        arrayArrival[j] = p;
+                    }
+                }
+            }
+        }
+```
+
 Метод addTimeArrivals(String time): принимает строку времени и добовляет её в массив этого автобуса, значению в массиве под номером countArrivals задаеться значение time, и число прибытий увеличиваеться на 1, далее массив сортируеться в хронологическом порядке.
 ```java
 public void addTimeArrivals(String time){
