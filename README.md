@@ -296,6 +296,8 @@ if (searchSequenceNumber(busNumber) > -1) {
 }
 ```
 
+Задание 3
+
 Метод deleteBus(String NumberBus): получает номер автобуса  NumberBus, определяет с помощью метода searchSequenceNumber() номере автобуса j, который нужно удалить далле аналогично с удалением времени прибыйтий, сдвигаем начиная с j на один все элементы arrayBus и arrayNumbersBuses и получим, что в  новых массивах не будет j элемента, далее уменьшаем поле countBuses на 1.
 ```java
 public void deleteBus(String NumberBus) {
@@ -308,6 +310,16 @@ public void deleteBus(String NumberBus) {
         }
 ```
 
+
+Задание 4
+
+Метод deleteTimeBusesArrivals(String busNumber, String time): получает номер автобуса  NumberBus и  время time, которое нужно удалить, определяет с помощью метода searchSequenceNumber() номере автобуса, в котором нужно удалить время и применяет метод deleteTimeArrivals().
+```java
+public void deleteTimeBusesArrivals(String busNumber, String time){
+            int sequenceNumber = searchSequenceNumber(busNumber);
+            arrayBus[sequenceNumber].deleteTimeArrivals(time);
+        }
+```
 
 
 
