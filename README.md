@@ -145,6 +145,22 @@ public void addTimeArrivals(String time){
 }
 ```
 
+Метод deleteTimeArrivals(String time): принимает строку времени и удаляет её из массива этого автобуса, находим номер времени в массиве прибытий, которое нам нужно удалить, далее начиная с этоного номера в цикле ствавим на место текущего следующий, таким образом получим массив без времени которое нужно удалить, и уменьшаем количество прибытий на 1.
+```java
+public void deleteTimeArrivals(String time){
+            int j = 0;
+            for(int i = 0; i < countArrivals; i++){
+                if (time.equals(arrayArrival[i].toString())){
+                    j = i;
+                }
+            }
+            for(int i = j; i < countArrivals-1; i++){
+                arrayArrival[i] = arrayArrival[i+1];
+            }
+            countArrivals--;
+            sortArrivals();
+        }
+```
 
 
 
