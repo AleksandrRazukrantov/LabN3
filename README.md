@@ -251,6 +251,43 @@ public int searchSequenceNumber(String busNumber) {
         }
 ```
 
+Метод isBusInSchedule(String busNumber): получает номер автобуса busNumber и возвращает приходит ли автобус с таким номером на остановку.
+```java
+public boolean isBusInSchedule(String busNumber){
+            boolean f = false;
+            for (int i = 0; i < countBuses; i++){
+                if(arrayBus[i].numberBus.equals(busNumber)){
+                    f = true;
+                }
+            }
+            return f;
+        }
+```
+
+Метод normalTime(String time): получает время time и возвращает его в нужном (номальном виде) hh:mm.
+```java
+public String normalTime(String time){
+            String res = time;
+                if(time.length() < 5) {
+                    if (time.length() == 3) {
+                        res = "0" + time.substring(0, 2) + "0" + time.charAt(2);
+                    } else {
+                        if (time.substring(0, 2).contains(":")) {
+                            res = "0" + time;
+                        } else {
+                            res = time.substring(0, 3) + "0" + time.charAt(3);
+                        }
+                    }
+                }
+            int min = Integer.parseInt(res.substring(3));
+            if(min >= 60){
+                res = res.substring(0,3) + "00";
+            }
+            return res;
+        }
+```
+
+
 Итак, все вспомогательные классы и методы были описаны, можно переходить к описанию и реализации самих заданий
 
 Задание 1 Вывод расписания
@@ -293,26 +330,39 @@ if (searchSequenceNumber(busNumber) > -1) {
 
 Задание 3 Удаление автобуса из расписания
 
-Метод deleteBus(String NumberBus): получает номер автобуса  NumberBus, определяет с помощью метода searchSequenceNumber() номере автобуса j, который нужно удалить далле аналогично с удалением времени прибыйтий, сдвигаем начиная с j на один все элементы arrayBus и arrayNumbersBuses и получим, что в  новых массивах не будет j элемента, далее уменьшаем поле countBuses на 1.
+Метод deleteBus(String NumberBus): получает номер автобуса  NumberBus, проверяет с помощью isBusInSchedule() есть ли такой автобус в массиве, если есть то определяет с помощью метода searchSequenceNumber() номере автобуса j, который нужно удалить далле аналогично с удалением времени прибыйтий, сдвигаем начиная с j на один все элементы arrayBus и arrayNumbersBuses и получим, что в  новых массивах не будет j элемента, далее уменьшаем поле countBuses на 1, иначе ничего не делает, так как удалять нечего.
 ```java
-public void deleteBus(String NumberBus) {
-            int j = searchSequenceNumber(NumberBus);
-            for (int i = j; i < countBuses - 1; i++) {
-                arrayBus[i] = arrayBus[i + 1];
-                arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
+public void deleteBus(String numberBus) {
+            if (isBusInSchedule(numberBus)) {
+                int j = searchSequenceNumber(numberBus);
+                for (int i = j; i < countBuses - 1; i++) {
+                    arrayBus[i] = arrayBus[i + 1];
+                    arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
+                }
+                countBuses--;
             }
-            countBuses--;
         }
 ```
 
 
 Задание 4 Удаление времени прихода автобуса
 
-Метод deleteTimeBusesArrivals(String busNumber, String time): получает номер автобуса  NumberBus и  время time, которое нужно удалить, определяет с помощью метода searchSequenceNumber() номер автобуса, в котором нужно удалить время и применяет метод deleteTimeArrivals().
+Метод deleteTimeBusesArrivals(String busNumber, String time): получает номер автобуса  NumberBus и  время time, которое нужно удалить, проверяет с помощью isBusInSchedule() есть ли такой автобус в массиве потом проверяет если у этого автобуса такое время прибытия, если есть то определяет с помощью метода searchSequenceNumber() номер автобуса, в котором нужно удалить время и применяет метод deleteTimeArrivals(), иначе ничего не делает, так как удалять нечего.
 ```java
 public void deleteTimeBusesArrivals(String busNumber, String time){
-            int sequenceNumber = searchSequenceNumber(busNumber);
-            arrayBus[sequenceNumber].deleteTimeArrivals(time);
+            time = normalTime(time);
+            if(isBusInSchedule(busNumber)) {
+                boolean f = false;
+                for (int i = 0; i < arrayBus[searchSequenceNumber(busNumber)].countArrivals; i++){
+                    if(arrayBus[searchSequenceNumber(busNumber)].arrayArrival[i].toString().equals(time)){
+                        f = true;
+                    }
+                }
+                if(f) {
+                    int sequenceNumber = searchSequenceNumber(busNumber);
+                    arrayBus[sequenceNumber].deleteTimeArrivals(time);
+                }
+            }
         }
 ```
 
@@ -321,6 +371,8 @@ public void deleteTimeBusesArrivals(String busNumber, String time){
 Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добавляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добавляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добавляем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
 ```java
 public void addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals){
+            startTime = normalTime(startTime);
+            periodTime = normalTime(periodTime);
             addBusArrivals(busNumber,24);
             arrayBus[countBuses-1].addTimeArrivals(startTime);
             for(int i = 0; i < countArrivals-1; i++) {
@@ -336,6 +388,9 @@ public void addBusPeriodically(String busNumber, String startTime, String period
 Метод addBusPeriodically(String busNumber, String startTime, String periodTime, String finishTime): получает номер автобуса  busNumber, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и конечное время finishTime, метод добавляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добавляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добавляем (пока time (изначально startTime ) меньше finishTime, то есть количество часов time меньше чем количество часов finishTime или часы одинаковые, а количество минут time меньше или равно чем количество минут finishTime ) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода) и если новое время по часам меньше finishTime то добавляем его.
 ```java
 public void addBusPeriodically(String busNumber, String startTime, String periodTime, String finishTime){
+            startTime = normalTime(startTime);
+            periodTime = normalTime(periodTime);
+            finishTime = normalTime(finishTime);
             int countFinishHourTime = (finishTime.charAt(0) - '0')*10 + (finishTime.charAt(1) - '0');
             int countFinishMinutesTime = (finishTime.charAt(3) - '0')*10 + (finishTime.charAt(4) - '0');
             addBusArrivals(busNumber,24);
@@ -356,6 +411,7 @@ public void addBusPeriodically(String busNumber, String startTime, String period
 Метод waitingBusPerson(String startTime, String busNumber, int countMinutes): получает начальное время startTime, номер автобуса  NumberBus и количество минут ожидания countMinutes, метод выдает true или false в зависимости прийдет ли автобус с номером NumberBus за время ожидания или нет. Для этого создаем пременые типа данных int для хранения часов и минут startTime, далее добовляем к минутной части startTime countMinutes и если количество минут становится больше или равно 60 вычитаем из него 60 и увеличиваем количество часов на 1. Далее с помощью цикла пробегаем по всем временам прибытия автобуса и если найдем то, которое лежит между начальным временем и конечным то возвращаем true, иначе по завершении цикла возвращаем false.
 ```java
 public boolean waitingBusPerson(String startTime, String busNumber, int countMinutes){
+            startTime = normalTime(startTime);
             int startHour = Integer.parseInt(startTime.substring(0,2));
             int finishHour = startHour;
             int startMinutes = Integer.parseInt(startTime.substring(3));
@@ -382,6 +438,8 @@ public boolean waitingBusPerson(String startTime, String busNumber, int countMin
 Метод timeBusesOnSegmentSut(String startTime, String endTime): получает начальное время startTime и конечное время промежутка endTime, метод возвращает номера автобусов, которые будут на остановке в данный промежуток времени. Нашли количество часов и минут endTime и startTime в int, чтобы легче писать условие, что какое то время лежит в прмежутке, далее пробегаем по массиву автобусов и в каждом автобусе пробегаем по его времени прибытия, если время прибытия лежит между endTime и startTime то добовляем его в результат (res) и выходим из цилка, если же нет таких прибытий то ничего не добовляем. 
 ```java
 public String timeBusesOnSegmentSut(String startTime, String endTime){
+            startTime = normalTime(startTime);
+            endTime = normalTime(endTime);
             String res = "";
             int hourStart = Integer.parseInt(startTime.substring(0,2));
             int minStart = Integer.parseInt(startTime.substring(3));
@@ -407,6 +465,8 @@ public String timeBusesOnSegmentSut(String startTime, String endTime){
 Метод timeBusesOnSegmentNotSut(String startTime, String endTime): получает начальное время startTime и конечное время промежутка endTime, метод возвращает номера автобусов, которые будут на остановке в данный промежуток времени. Метод отличается от timeBusesOnSegmentSut() только условием, если в timeBusesOnSegmentSut() требуется чтобы время прибытия было больше или равно времени начала И меньше или равно времени конца то здесь требуется, чтобы время прибытия было больше или равно времени начала ИЛИ меньше или равно времени конца.
 ```java
 public String timeBusesOnSegmentNotSut(String startTime, String endTime){
+            startTime = normalTime(startTime);
+            endTime = normalTime(endTime);
             String res = "";
             int hourStart = Integer.parseInt(startTime.substring(0,2));
             int minStart = Integer.parseInt(startTime.substring(3));
@@ -437,6 +497,7 @@ public String timeBusesOnSegmentNotSut(String startTime, String endTime){
 Метод firstBusForPerson(String startTime, String[] numberBuses): получает время прихода человека на остановку startTime, и массив тех автобусов, которых он ждет, метод возвращает номер автобуса (из списка), который приедет раньше всех к startTime. Перевели часы и минуты startTime в int, далее создали две пременных для нахождения минимума minHour и minMin. Далее пробигаем по numberBuses и пробигаем по временам прибитий элементов numberBuses, если время прибытия больше startTime и разница между startTime и временем прибытия меньше чем minHour и minMin (меньше чем minHour, если равно то меньше minMin) то результату присваивается номер данного автобуса. Возвращается результат.
 ```java
 public String firstBusForPerson(String startTime, String[] numberBuses){
+            startTime = normalTime(startTime);
             String res = "";
             int startHour = Integer.parseInt(startTime.substring(0,2));
             int startMin = Integer.parseInt(startTime.substring(3));
@@ -465,6 +526,7 @@ public String firstBusForPerson(String startTime, String[] numberBuses){
 
 ```java
 
+
 public class Test {
     public static void main(String[] args){
 
@@ -472,18 +534,18 @@ public class Test {
         Schedule raspis = new Schedule(100);
 
         // Добовляем время для автобусов (Задание 2)
-        raspis.addTimeBusesArrivals("430","09:00");
+        raspis.addTimeBusesArrivals("430","9:09");
         raspis.addTimeBusesArrivals("430","10:00");
         raspis.addTimeBusesArrivals("430","12:00");
         raspis.addTimeBusesArrivals("430","15:30");
         raspis.addTimeBusesArrivals("430","18:10");
         raspis.addTimeBusesArrivals("430","23:10");
-        raspis.addTimeBusesArrivals("440","09:25");
+        raspis.addTimeBusesArrivals("440","9:25");
         raspis.addTimeBusesArrivals("440","10:30");
         raspis.addTimeBusesArrivals("440","11:40");
         raspis.addTimeBusesArrivals("550","21:25");
         raspis.addTimeBusesArrivals("550","23:30");
-        raspis.addTimeBusesArrivals("550","03:40");
+        raspis.addTimeBusesArrivals("550","3:40");
         raspis.addTimeBusesArrivals("440","13:00");
         raspis.addTimeBusesArrivals("440","17:01");
         raspis.addTimeBusesArrivals("440","19:10");
@@ -496,16 +558,16 @@ public class Test {
         raspis.deleteBus("210");
 
         // Удаление времени 17:01 из расписания 440 автобуса (Задание 4)
-        raspis.deleteTimeBusesArrivals("440","17:01");
+        raspis.deleteTimeBusesArrivals("440","17:00");
 
         // Вывод расписания (Задание 1)
         System.out.println(raspis.toString());
 
         // Создаем автобус 340p с переодическими остановками (по количеству) (Задание 5)
-        raspis.addBusPeriodically("340p", "08:30","02:30", 4);
+        raspis.addBusPeriodically("340p", "08:30","2:30", 4);
 
         // Создаем автобус 240p с переодическими остановками (по времени) (Задание 6)
-        raspis.addBusPeriodically("240p", "10:15", "03:00", "22:00");
+        raspis.addBusPeriodically("240p", "10:15", "3:00", "22:00");
 
         // Вывод расписания (Задание 1)
         System.out.println(raspis.toString());
@@ -517,7 +579,7 @@ public class Test {
         System.out.println(raspis.timeBusesOnSegmentSut("14:00", "17:30"));
 
         // Возвращаем номера автобусов которые проезжают в период с 22:00 до 05:30 (Задание 9)
-        System.out.println(raspis.timeBusesOnSegmentNotSut("22:00", "05:30"));
+        System.out.println(raspis.timeBusesOnSegmentNotSut("22:00", "5:30"));
 
         // Создаем список желаемых автобусов
         String[] list = new String[3];
@@ -687,6 +749,36 @@ public class Test {
             return f;
         }
 
+        public boolean isBusInSchedule(String busNumber){
+            boolean f = false;
+            for (int i = 0; i < countBuses; i++){
+                if(arrayBus[i].numberBus.equals(busNumber)){
+                    f = true;
+                }
+            }
+            return f;
+        }
+
+        public String normalTime(String time){
+            String res = time;
+                if(time.length() < 5) {
+                    if (time.length() == 3) {
+                        res = "0" + time.substring(0, 2) + "0" + time.charAt(2);
+                    } else {
+                        if (time.substring(0, 2).contains(":")) {
+                            res = "0" + time;
+                        } else {
+                            res = time.substring(0, 3) + "0" + time.charAt(3);
+                        }
+                    }
+                }
+            int min = Integer.parseInt(res.substring(3));
+            if(min >= 60){
+                res = res.substring(0,3) + "00";
+            }
+            return res;
+        }
+
         // Задание 1 Вывод расписания
         @Override
         public String toString() {
@@ -700,11 +792,12 @@ public class Test {
         // Задание 2 Добовление времени автобуса по его номеру
         public void addTimeBusesArrivals(String busNumber, String time) {
             if (countBuses < arrayBus.length) {
+                time = normalTime(time);
                 if (searchSequenceNumber(busNumber) > -1) {
                     boolean f = true;
                     Bus bus = arrayBus[searchSequenceNumber(busNumber)];
                     for(int i = 0; i < bus.countArrivals; i++){
-                        if(time.equals(bus.arrayArrival[i].toString())){
+                         if(time.equals(bus.arrayArrival[i].toString())){
                             f = false;
                         }
                     }
@@ -713,29 +806,44 @@ public class Test {
                     }
                 }
                 else {
-                    addBusArrivals(busNumber, 15);
+                    addBusArrivals(busNumber, 24);
                     arrayBus[searchSequenceNumber(busNumber)].addTimeArrivals(time);
                 }
             }
         }
         // Задание 3 Удаление автобуса из расписания
-        public void deleteBus(String NumberBus) {
-            int j = searchSequenceNumber(NumberBus);
-            for (int i = j; i < countBuses - 1; i++) {
-                arrayBus[i] = arrayBus[i + 1];
-                arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
+        public void deleteBus(String numberBus) {
+            if (isBusInSchedule(numberBus)) {
+                int j = searchSequenceNumber(numberBus);
+                for (int i = j; i < countBuses - 1; i++) {
+                    arrayBus[i] = arrayBus[i + 1];
+                    arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
+                }
+                countBuses--;
             }
-            countBuses--;
         }
 
         // Задание 4  Удаление времени прихода автобуса
         public void deleteTimeBusesArrivals(String busNumber, String time){
-            int sequenceNumber = searchSequenceNumber(busNumber);
-            arrayBus[sequenceNumber].deleteTimeArrivals(time);
+            time = normalTime(time);
+            if(isBusInSchedule(busNumber)) {
+                boolean f = false;
+                for (int i = 0; i < arrayBus[searchSequenceNumber(busNumber)].countArrivals; i++){
+                    if(arrayBus[searchSequenceNumber(busNumber)].arrayArrival[i].toString().equals(time)){
+                        f = true;
+                    }
+                }
+                if(f) {
+                    int sequenceNumber = searchSequenceNumber(busNumber);
+                    arrayBus[sequenceNumber].deleteTimeArrivals(time);
+                }
+            }
         }
 
         // Задание 5 Добавление автобуса с периодическими остановками (по количеству)
         public void addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals){
+            startTime = normalTime(startTime);
+            periodTime = normalTime(periodTime);
             addBusArrivals(busNumber,24);
             arrayBus[countBuses-1].addTimeArrivals(startTime);
             for(int i = 0; i < countArrivals-1; i++) {
@@ -746,6 +854,9 @@ public class Test {
 
         //  Задание 6 Добавление автобуса с периодическими остановками (по времени)
         public void addBusPeriodically(String busNumber, String startTime, String periodTime, String finishTime){
+            startTime = normalTime(startTime);
+            periodTime = normalTime(periodTime);
+            finishTime = normalTime(finishTime);
             int countFinishHourTime = (finishTime.charAt(0) - '0')*10 + (finishTime.charAt(1) - '0');
             int countFinishMinutesTime = (finishTime.charAt(3) - '0')*10 + (finishTime.charAt(4) - '0');
             addBusArrivals(busNumber,24);
@@ -761,6 +872,7 @@ public class Test {
 
         // Здание 7 Ожидание автобуса человеком
         public boolean waitingBusPerson(String startTime, String busNumber, int countMinutes){
+            startTime = normalTime(startTime);
             int startHour = Integer.parseInt(startTime.substring(0,2));
             int finishHour = startHour;
             int startMinutes = Integer.parseInt(startTime.substring(3));
@@ -782,6 +894,8 @@ public class Test {
 
         // Задание 8  Автобусы на отрезке времени (в пределах суток)
         public String timeBusesOnSegmentSut(String startTime, String endTime){
+            startTime = normalTime(startTime);
+            endTime = normalTime(endTime);
             String res = "";
             int hourStart = Integer.parseInt(startTime.substring(0,2));
             int minStart = Integer.parseInt(startTime.substring(3));
@@ -802,6 +916,8 @@ public class Test {
 
         // Задание 9 Автобусы на отрезке времени (через полночь)
         public String timeBusesOnSegmentNotSut(String startTime, String endTime){
+            startTime = normalTime(startTime);
+            endTime = normalTime(endTime);
             String res = "";
             int hourStart = Integer.parseInt(startTime.substring(0,2));
             int minStart = Integer.parseInt(startTime.substring(3));
@@ -826,6 +942,7 @@ public class Test {
 
         // Задание 10  Первый автобус для человека
         public String firstBusForPerson(String startTime, String[] numberBuses){
+            startTime = normalTime(startTime);
             String res = "";
             int startHour = Integer.parseInt(startTime.substring(0,2));
             int startMin = Integer.parseInt(startTime.substring(3));
@@ -853,13 +970,11 @@ public class Test {
 
 }
 
-
 ```
 
 ### 4. Анализ правильности решения и формат ввода
 
-Ввод: номер автобуса можно вводить как угодно (то есть как цифры так и буквы), время нужно вводить в формат hh:mm, причем длинна строки всегда должна быть 5 (то есть если нужно ввести время 9 утра 9 минут его следует записать в виде 09:09)
-
+Ввод: номер автобуса можно вводить как угодно (то есть как цифры так и буквы), время нужно вводить в формат hh:mm, можно также в формате h:m если оно представляет собой 0h:0m 
 ##### Описание класса Test
 
 Описание будет по блокам
