@@ -30,6 +30,38 @@ public static class Schedule {
             return f;
         }
 
+        // Проверяет прибывает ли автобус с переданным номером на остановку
+        public boolean isBusInSchedule(String busNumber){
+            boolean f = false;
+            for (int i = 0; i < countBuses; i++){
+                if(arrayBus[i].numberBus.equals(busNumber)){
+                    f = true;
+                }
+            }
+            return f;
+        }
+
+        // Приводит время к нормальному виду то есть к виду hh:mm
+        public String normalTime(String time){
+            String res = time;
+                if(time.length() < 5) {
+                    if (time.length() == 3) {
+                        res = "0" + time.substring(0, 2) + "0" + time.charAt(2);
+                    } else {
+                        if (time.substring(0, 2).contains(":")) {
+                            res = "0" + time;
+                        } else {
+                            res = time.substring(0, 3) + "0" + time.charAt(3);
+                        }
+                    }
+                }
+            int min = Integer.parseInt(res.substring(3));
+            if(min >= 60){
+                res = res.substring(0,3) + "00";
+            }
+            return res;
+        }
+
         // Задание 1 Вывод расписания
         @Override
         public String toString() {
@@ -43,11 +75,12 @@ public static class Schedule {
         // Задание 2 Добовление времени автобуса по его номеру
         public void addTimeBusesArrivals(String busNumber, String time) {
             if (countBuses < arrayBus.length) {
+                time = normalTime(time);
                 if (searchSequenceNumber(busNumber) > -1) {
                     boolean f = true;
                     Bus bus = arrayBus[searchSequenceNumber(busNumber)];
                     for(int i = 0; i < bus.countArrivals; i++){
-                        if(time.equals(bus.arrayArrival[i].toString())){
+                         if(time.equals(bus.arrayArrival[i].toString())){
                             f = false;
                         }
                     }
@@ -56,29 +89,36 @@ public static class Schedule {
                     }
                 }
                 else {
-                    addBusArrivals(busNumber, 15);
+                    addBusArrivals(busNumber, 24);
                     arrayBus[searchSequenceNumber(busNumber)].addTimeArrivals(time);
                 }
             }
         }
         // Задание 3 Удаление автобуса из расписания
-        public void deleteBus(String NumberBus) {
-            int j = searchSequenceNumber(NumberBus);
-            for (int i = j; i < countBuses - 1; i++) {
-                arrayBus[i] = arrayBus[i + 1];
-                arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
+        public void deleteBus(String numberBus) {
+            if (isBusInSchedule(numberBus)) {
+                int j = searchSequenceNumber(numberBus);
+                for (int i = j; i < countBuses - 1; i++) {
+                    arrayBus[i] = arrayBus[i + 1];
+                    arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
+                }
+                countBuses--;
             }
-            countBuses--;
         }
 
         // Задание 4  Удаление времени прихода автобуса
         public void deleteTimeBusesArrivals(String busNumber, String time){
-            int sequenceNumber = searchSequenceNumber(busNumber);
-            arrayBus[sequenceNumber].deleteTimeArrivals(time);
+            time = normalTime(time);
+            if(isBusInSchedule(busNumber)) {
+                int sequenceNumber = searchSequenceNumber(busNumber);
+                arrayBus[sequenceNumber].deleteTimeArrivals(time);
+            }
         }
 
         // Задание 5 Добавление автобуса с периодическими остановками (по количеству)
         public void addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals){
+            startTime = normalTime(startTime);
+            periodTime = normalTime(periodTime);
             addBusArrivals(busNumber,24);
             arrayBus[countBuses-1].addTimeArrivals(startTime);
             for(int i = 0; i < countArrivals-1; i++) {
@@ -89,6 +129,9 @@ public static class Schedule {
 
         //  Задание 6 Добавление автобуса с периодическими остановками (по времени)
         public void addBusPeriodically(String busNumber, String startTime, String periodTime, String finishTime){
+            startTime = normalTime(startTime);
+            periodTime = normalTime(periodTime);
+            finishTime = normalTime(finishTime);
             int countFinishHourTime = (finishTime.charAt(0) - '0')*10 + (finishTime.charAt(1) - '0');
             int countFinishMinutesTime = (finishTime.charAt(3) - '0')*10 + (finishTime.charAt(4) - '0');
             addBusArrivals(busNumber,24);
@@ -104,6 +147,7 @@ public static class Schedule {
 
         // Здание 7 Ожидание автобуса человеком
         public boolean waitingBusPerson(String startTime, String busNumber, int countMinutes){
+            startTime = normalTime(startTime);
             int startHour = Integer.parseInt(startTime.substring(0,2));
             int finishHour = startHour;
             int startMinutes = Integer.parseInt(startTime.substring(3));
@@ -125,6 +169,8 @@ public static class Schedule {
 
         // Задание 8  Автобусы на отрезке времени (в пределах суток)
         public String timeBusesOnSegmentSut(String startTime, String endTime){
+            startTime = normalTime(startTime);
+            endTime = normalTime(endTime);
             String res = "";
             int hourStart = Integer.parseInt(startTime.substring(0,2));
             int minStart = Integer.parseInt(startTime.substring(3));
@@ -145,6 +191,8 @@ public static class Schedule {
 
         // Задание 9 Автобусы на отрезке времени (через полночь)
         public String timeBusesOnSegmentNotSut(String startTime, String endTime){
+            startTime = normalTime(startTime);
+            endTime = normalTime(endTime);
             String res = "";
             int hourStart = Integer.parseInt(startTime.substring(0,2));
             int minStart = Integer.parseInt(startTime.substring(3));
@@ -169,6 +217,7 @@ public static class Schedule {
 
         // Задание 10  Первый автобус для человека
         public String firstBusForPerson(String startTime, String[] numberBuses){
+            startTime = normalTime(startTime);
             String res = "";
             int startHour = Integer.parseInt(startTime.substring(0,2));
             int startMin = Integer.parseInt(startTime.substring(3));
