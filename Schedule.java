@@ -1,5 +1,6 @@
-import Arrival;
 import Bus;
+import Arrival;
+
 public static class Schedule {
 
         private int countBuses = 0;
@@ -30,7 +31,6 @@ public static class Schedule {
             return f;
         }
 
-        // Проверяет прибывает ли автобус с переданным номером на остановку
         public boolean isBusInSchedule(String busNumber){
             boolean f = false;
             for (int i = 0; i < countBuses; i++){
@@ -41,7 +41,6 @@ public static class Schedule {
             return f;
         }
 
-        // Приводит время к нормальному виду то есть к виду hh:mm
         public String normalTime(String time){
             String res = time;
                 if(time.length() < 5) {
@@ -110,8 +109,16 @@ public static class Schedule {
         public void deleteTimeBusesArrivals(String busNumber, String time){
             time = normalTime(time);
             if(isBusInSchedule(busNumber)) {
-                int sequenceNumber = searchSequenceNumber(busNumber);
-                arrayBus[sequenceNumber].deleteTimeArrivals(time);
+                boolean f = false;
+                for (int i = 0; i < arrayBus[searchSequenceNumber(busNumber)].countArrivals; i++){
+                    if(arrayBus[searchSequenceNumber(busNumber)].arrayArrival[i].toString().equals(time)){
+                        f = true;
+                    }
+                }
+                if(f) {
+                    int sequenceNumber = searchSequenceNumber(busNumber);
+                    arrayBus[sequenceNumber].deleteTimeArrivals(time);
+                }
             }
         }
 
