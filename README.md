@@ -436,10 +436,10 @@ public String timeBusesOnSegmentNotSut(String startTime, String endTime){
 
 ```
 
-Задание 10 Добавление автобуса с периодическими остановками (по количеству)
+Задание 10 Первый автобус для человека
 
 
-Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
+Метод firstBusForPerson(String startTime, String[] numberBuses): получает время прихода человека на остановку startTime, и массив тех автобусов, которых он ждет, мотод возвращает номер автобуса (из списка), который приедет раньше всех к startTime. Перевели часы и минуты startTime в int, далее создали две пременных для нахождения минимума minHour и minMin. Далее пробигаем по numberBuses и пробигаем по временам прибитий элементов numberBuses, если время прибытия больше startTime и разница между startTime и временем прибытия меньше чем minHour и minMin (меньше чем minHour, если равно то меньше minMin) то результату присваивается номер данного автобуса. Возвращается результат.
 ```java
 public String firstBusForPerson(String startTime, String[] numberBuses){
             String res = "";
