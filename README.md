@@ -308,7 +308,7 @@ public void deleteBus(String NumberBus) {
 
 Задание 4 Удаление времени прихода автобуса
 
-Метод deleteTimeBusesArrivals(String busNumber, String time): получает номер автобуса  NumberBus и  время time, которое нужно удалить, определяет с помощью метода searchSequenceNumber() номере автобуса, в котором нужно удалить время и применяет метод deleteTimeArrivals().
+Метод deleteTimeBusesArrivals(String busNumber, String time): получает номер автобуса  NumberBus и  время time, которое нужно удалить, определяет с помощью метода searchSequenceNumber() номер автобуса, в котором нужно удалить время и применяет метод deleteTimeArrivals().
 ```java
 public void deleteTimeBusesArrivals(String busNumber, String time){
             int sequenceNumber = searchSequenceNumber(busNumber);
