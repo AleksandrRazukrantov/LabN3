@@ -15,45 +15,10 @@ public static class Schedule {
         public void addBusArrivals(String numberBus, int maxCountArrivals) {
             if (countBuses < arrayBus.length) {
                 arrayBus[countBuses] = new Bus(numberBus, maxCountArrivals);
-                arrayNumbersBuses[countBuses] = (numberBus);
+                arrayNumbersBuses[countBuses] = numberBus;
                 countBuses++;
             }
         }
-
-        // Добовление уже существующего автобуса
-        public void addBusArrivals(Bus bus) {
-            if (countBuses < arrayBus.length) {
-                arrayBus[countBuses] = bus;
-                arrayNumbersBuses[countBuses] = (bus.numberBus);
-                countBuses++;
-            }
-        }
-
-        // Задание 3 Удаление автобуса из расписания
-        public void deleteBus(String NumberBus) {
-            int j = 0;
-            for (int i = 0; i < countBuses; i++) {
-                if (arrayNumbersBuses[i].equals(NumberBus)) {
-                    j = i;
-                }
-            }
-            for (int i = j; i < countBuses - 1; i++) {
-                arrayBus[i] = arrayBus[i + 1];
-                arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
-            }
-            countBuses--;
-        }
-
-        @Override
-        // Задание 1 Вывод расписания на экран
-        public String toString() {
-            String res = "";
-            for (int i = 0; i < countBuses; i++) {
-                res = res + arrayBus[i].toString() + "\n";
-            }
-            return res;
-        }
-
         // Поиск порядкого номера автобуса
         public int searchSequenceNumber(String busNumber) {
             int f = -1;
@@ -63,6 +28,16 @@ public static class Schedule {
                 }
             }
             return f;
+        }
+
+        // Задание 1 Вывод расписания
+        @Override
+        public String toString() {
+            String res = "";
+            for (int i = 0; i < countBuses; i++) {
+                res = res + arrayBus[i].toString() + "\n";
+            }
+            return res;
         }
 
         // Задание 2 Добовление времени автобуса по его номеру
@@ -86,6 +61,15 @@ public static class Schedule {
                 }
             }
         }
+        // Задание 3 Удаление автобуса из расписания
+        public void deleteBus(String NumberBus) {
+            int j = searchSequenceNumber(NumberBus);
+            for (int i = j; i < countBuses - 1; i++) {
+                arrayBus[i] = arrayBus[i + 1];
+                arrayNumbersBuses[i] = arrayNumbersBuses[i + 1];
+            }
+            countBuses--;
+        }
 
         // Задание 4  Удаление времени прихода автобуса
         public void deleteTimeBusesArrivals(String busNumber, String time){
@@ -98,10 +82,9 @@ public static class Schedule {
             addBusArrivals(busNumber,24);
             arrayBus[countBuses-1].addTimeArrivals(startTime);
             for(int i = 0; i < countArrivals-1; i++) {
-                arrayBus[countBuses-1].addSumTime(busNumber, periodTime);
-
+                String time = arrayBus[countBuses-1].sumTime(periodTime);
+                arrayBus[countBuses-1].addTimeArrivals(time);
             }
-
         }
 
         //  Задание 6 Добавление автобуса с периодическими остановками (по времени)
@@ -112,9 +95,9 @@ public static class Schedule {
             String time = startTime;
             arrayBus[countBuses-1].addTimeArrivals(startTime);
             while (Integer.parseInt(time.substring(0,2)) < countFinishHourTime || (Integer.parseInt(time.substring(0,2)) == countFinishHourTime && Integer.parseInt(time.substring(3)) <= countFinishMinutesTime)){
-                time = arrayBus[countBuses-1].sumTime(busNumber, periodTime);
+                time = arrayBus[countBuses-1].sumTime(periodTime);
                 if(Integer.parseInt(time.substring(0,2)) < Integer.parseInt(finishTime.substring(0,2))) {
-                    arrayBus[countBuses - 1].addSumTime(busNumber, periodTime);
+                    arrayBus[countBuses - 1].addTimeArrivals(time);
                 }
             }
         }
