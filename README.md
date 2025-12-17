@@ -384,7 +384,7 @@ public boolean waitingBusPerson(String startTime, String busNumber, int countMin
 Задание 8 Автобусы на отрезке времени (в пределах суток)
 
 
-Метод timeBusesOnSegmentSut(String startTime, String endTime): получает начальное время startTime, то есть время первого прибытияи и конечное время промежутка endTime, метод возвращает номера автобусов, которые будут на остановке в данный промежуток времени. Нашли количество часов и минут endTime и startTime, далее пробегаем по массиву автобусов и в каждом автобусе пробегаем по его времени прибытия, если время прибытия лежит между endTime и startTime то добовляем его в результат (res) и выходим из цилка, если же нет таких прибытий то ничего не добовляем. 
+Метод timeBusesOnSegmentSut(String startTime, String endTime): получает начальное время startTime и конечное время промежутка endTime, метод возвращает номера автобусов, которые будут на остановке в данный промежуток времени. Нашли количество часов и минут endTime и startTime в int, чтобы легче писать условие, что какое то время лежит в прмежутке, далее пробегаем по массиву автобусов и в каждом автобусе пробегаем по его времени прибытия, если время прибытия лежит между endTime и startTime то добовляем его в результат (res) и выходим из цилка, если же нет таких прибытий то ничего не добовляем. 
 ```java
 public String timeBusesOnSegmentSut(String startTime, String endTime){
             String res = "";
@@ -409,7 +409,7 @@ public String timeBusesOnSegmentSut(String startTime, String endTime){
 Задание 9 Автобусы на отрезке времени (через полночь)
 
 
-Метод addBusPeriodically(String busNumber, String startTime, String periodTime, int countArrivals): получает номер автобуса  NumberBus, начальное время startTime, то есть время первого прибытия, период пребытий String periodTime и  количество прибытий countArrivals, метод добовляет в расписания переодический автобус. Создаем новый автобус с помощью метода addBusArrivals(), далее добовляем стартовое время к этому автобусу с помощью метода addTimeArrivals(), далее с помощью цикла добовяем (countArrivals-1) время, где к каждому новому времени применен метод sumTime(periodTime) (то есть прибавление периода).
+Метод timeBusesOnSegmentNotSut(String startTime, String endTime): получает начальное время startTime и конечное время промежутка endTime, метод возвращает номера автобусов, которые будут на остановке в данный промежуток времени. Метод отличается от timeBusesOnSegmentSut() только условием, если в timeBusesOnSegmentSut() требуется чтобы время прибытия было больше или равно времени начала И меньше или равно времени конца то здесь требуется, чтобы время прибытия было больше или равно времени начала ИЛИ меньше или равно времени конца.
 ```java
 public String timeBusesOnSegmentNotSut(String startTime, String endTime){
             String res = "";
